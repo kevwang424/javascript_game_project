@@ -1,14 +1,15 @@
 #board {
   display: flex;
   flex-wrap: wrap;
-  margin-left: 33%;
-  margin-right: 33%;
+  margin-left: 40%;
+  margin-right: 40%;
   margin-top: 50px;
 }
 
-.rectangle {
-  width: 14.29%;
-
+.hidden-column {
+  width: 12.5%;
   height: 16.67%;
-
 }
+
+/*height: 16.67%*/
+/*width: 14.29%;*/

@@ -1,4 +1,4 @@
 $(document).ready(function(){
-  let board = new Board()
-  board.render()
+  let game = new ConnectFour()
+  game.render()
 })

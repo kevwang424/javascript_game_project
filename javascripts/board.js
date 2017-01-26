@@ -1,13 +1,18 @@
 class Board {
   constructor(){
-    this.positions = ["O", "O", "O", "O", "O", "O", "O","O", "O", "O", "O", "O", "O", "O","O", "O", "O", "O", "O", "O", "O","O", "O", "O", "O", "O", "O", "O","O", "O", "O", "O", "O", "O", "O","O", "O", "O", "O", "O", "O", "O"]
+    this.positions = [["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"]]
   }
 
+  //create the board and also initialize the dropper on the first
+
   render(){
-    debugger
-    this.positions.forEach(function(position, i){
-      $('#board').append(`<div class="rectangle" id="${i}">${position}</div>`)
+    this.positions.forEach(function(row, i){
+      $(`#hidden-column-${i}`).append(`<div class = "column" id = "column-${i}"></div>`)
+      row.forEach(function(position, j){
+        $(`#column-${i}`).append(`<div class= "position" id="${i}-${j}">${position}</div>`)
+      })
     })
+
   }
 
 }
