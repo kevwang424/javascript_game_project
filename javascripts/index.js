@@ -35,7 +35,7 @@ class Board {
   checkPosition(columnCheck){
     //takes in the parent "column-?" div and iterates through children
     //setting the position to return as the first element of the array before iterating
-    let position = 0
+    var position
     //iterating through the array of the children elements to find the value
     $.each(columnCheck.children('.position'),function(i,positionDiv){
       if (positionDiv.innerHTML == 'O'){
