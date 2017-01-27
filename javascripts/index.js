@@ -21,34 +21,34 @@ class Board {
   }
 
   placePiece(colIndex, player){
-    //whatever position we get back from the dropper we need to find the column
+
     let columnToDrop = $(`#column-${colIndex}`)
-
-    //check to see which position is free and save as variable
     let indexOfChild = this.checkPosition(columnToDrop)
-
-    //re-assigning the 'O' to the players piece
-    columnToDrop.get(0).childNodes[indexOfChild].innerHTML = player
-
+    if(indexOfChild != undefined){
+      columnToDrop.get(0).childNodes[indexOfChild].innerHTML = player
+      }
+    return indexOfChild
   }
 
   checkPosition(columnCheck){
-    //takes in the parent "column-?" div and iterates through children
-    //setting the position to return as the first element of the array before iterating
-    let position = 0
-    //iterating through the array of the children elements to find the value
+
+    var position
+
     $.each(columnCheck.children('.position'),function(i,positionDiv){
       if (positionDiv.innerHTML == 'O'){
         position = i
       }
     })
     return position
-    //needs to return the ID so placePiece knows which one to drop it on
   }
 
-
 }
-
+//  var weNeedThisValue = this.checkPosition
+//
+//  if (weNeedThisValue != undefined)
+// update token
+// else
+// nothing
 
 class Dropper {
 
@@ -99,11 +99,11 @@ class Dropper {
   }
 
   dropToken(){
-    this.turnCount ++
     return this.dropRow.indexOf(this.token)
   }
 
   updateCurrentPlayer(position){
+    this.turnCount ++
     $(`#hidden-column-${position}`).get(0).childNodes[0].nodeValue = this.currentPlayer(this.turnCount)
     this.dropRow[position] = this.token
   }
@@ -127,11 +127,16 @@ class Dropper {
       }
       else if (e.which == 32){
         var position = this.dropToken()
-        //have to hold the player that dropped the piece before it's changed so i can pass to board
+
         var player = this.token
-        this.updateCurrentPlayer(position)
-        // we need to pass the index into the board and the player who dropped the piece
-        this.board.placePiece(position, player)
+        var undef = this.board.placePiece(position, player)
+
+        if (undef != undefined){
+          this.updateCurrentPlayer(position)
+
+        } else {
+          alert("Please select another column!")
+        }
       }
     }.bind(this))
   }
