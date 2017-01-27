@@ -24,11 +24,27 @@ class Board {
     //whatever position we get back from the dropper we need to find the column
     let columnToDrop = $(`#column-${colIndex}`)
 
+    //check to see which position is free and save as variable
+    let indexOfChild = this.checkPosition(columnToDrop)
+
     //re-assigning the 'O' to the players piece
-    columnToDrop.get(0).childNodes[0].innerHTML = player
+    columnToDrop.get(0).childNodes[indexOfChild].innerHTML = player
 
   }
 
+  checkPosition(columnCheck){
+    //takes in the parent "column-?" div and iterates through children
+    //setting the position to return as the first element of the array before iterating
+    let position = 0
+    //iterating through the array of the children elements to find the value
+    $.each(columnCheck.children('.position'),function(i,positionDiv){
+      if (positionDiv.innerHTML == 'O'){
+        position = i
+      }
+    })
+    return position
+    //needs to return the ID so placePiece knows which one to drop it on
+  }
 
 
 }
