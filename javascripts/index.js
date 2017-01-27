@@ -116,6 +116,23 @@ class Dropper {
     this.eventHandlers()
   }
 
+  checkVerticalWin(column){
+      var count = 0
+      var player = this.token
+      $.each($(`#column-${column}`).children('.position'),function(i,positionDiv){
+        if (positionDiv.innerHTML == player && count < 3){
+          count = count+1 
+        }
+        else if (positionDiv.innerHTML != player){
+          player = positionDiv.innerHTML
+          count = 0
+        }
+        else if (count == 3){
+          alert("You WIN!")
+        }
+      })
+    }
+
   eventHandlers(){
 
     $(document).on('keydown', function(e){
@@ -138,6 +155,7 @@ class Dropper {
           alert("Please select another column!")
         }
       }
+      this.checkVerticalWin(position)
     }.bind(this))
   }
 
@@ -158,6 +176,12 @@ class ConnectFour {
     this.board.render()
   }
   //logic for finding four in a row
+
+
+
+  checkHorizontalWin(){
+
+  }
 
   //logic to see what player is first
 
