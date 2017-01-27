@@ -23,23 +23,25 @@ class Board {
   placePiece(colIndex, player){
 
     let columnToDrop = $(`#column-${colIndex}`)
-    let indexOfChild = this.checkPosition(columnToDrop)
+    let indexOfChild = this.checkPosition(colIndex)
+
     if(indexOfChild != undefined){
       columnToDrop.get(0).childNodes[indexOfChild].innerHTML = player
+      this.positions[colIndex][indexOfChild] = player
       }
+    console.log(this.positions[colIndex])
     return indexOfChild
   }
 
   checkPosition(columnCheck){
 
-    var position
-
-    $.each(columnCheck.children('.position'),function(i,positionDiv){
-      if (positionDiv.innerHTML == 'O'){
-        position = i
+    var pos
+    $.each(this.positions[columnCheck],function(i,position){
+      if (position == 'O'){
+        pos = i
       }
     })
-    return position
+    return pos
   }
 
 }
@@ -116,22 +118,22 @@ class Dropper {
     this.eventHandlers()
   }
 
-  checkVerticalWin(column){
-      var count = 0
-      var player = this.token
-      $.each($(`#column-${column}`).children('.position'),function(i,positionDiv){
-        if (positionDiv.innerHTML == player && count < 3){
-          count = count+1 
-        }
-        else if (positionDiv.innerHTML != player){
-          player = positionDiv.innerHTML
-          count = 0
-        }
-        else if (count == 3){
-          alert("You WIN!")
-        }
-      })
-    }
+  // checkVerticalWin(column){
+  //     var count = 0
+  //     var player = this.token
+  //     $.each($(`#column-${column}`).children('.position'),function(i,positionDiv){
+  //       if (positionDiv.innerHTML == player && count < 3){
+  //         count = count + 1
+  //       }
+  //       else if (positionDiv.innerHTML != player){
+  //         player = positionDiv.innerHTML
+  //         count = 0
+  //       }
+  //       else if (count == 3){
+  //         alert("You WIN!")
+  //       }
+  //     })
+  //   }
 
   eventHandlers(){
 
@@ -155,7 +157,7 @@ class Dropper {
           alert("Please select another column!")
         }
       }
-      this.checkVerticalWin(position)
+      // this.checkVerticalWin(position)
     }.bind(this))
   }
 
