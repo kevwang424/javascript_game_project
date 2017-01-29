@@ -29,7 +29,6 @@ class Board {
       columnToDrop.get(0).childNodes[indexOfChild].innerHTML = player
       this.positions[colIndex][indexOfChild] = player
       }
-    console.log(this.positions[colIndex])
     return indexOfChild
   }
 
@@ -45,12 +44,6 @@ class Board {
   }
 
 }
-//  var weNeedThisValue = this.checkPosition
-//
-//  if (weNeedThisValue != undefined)
-// update token
-// else
-// nothing
 
 class Dropper {
 
@@ -110,32 +103,19 @@ class Dropper {
     this.dropRow[position] = this.token
   }
 
-  render(){
+  //render will now take in a method that will be a callback to the connectFour class
+  //in the end there may be 3 callback methods it will take in to pass into eventHandlers
+  render(verticalMethod, horizontalMethod){
     this.initialToken()
     this.dropRow.forEach(function(hiddenRow, i){
       $('#board').append(`<div class = "hidden-column" id = "hidden-column-${i}">${hiddenRow}</div>`)
     })
-    this.eventHandlers()
+    //this method needs to be used in the eventHandlers after the spacebar has been pressed and token dropped
+    this.eventHandlers(verticalMethod, horizontalMethod)
   }
 
-  // checkVerticalWin(column){
-  //     var count = 0
-  //     var player = this.token
-  //     $.each($(`#column-${column}`).children('.position'),function(i,positionDiv){
-  //       if (positionDiv.innerHTML == player && count < 3){
-  //         count = count + 1
-  //       }
-  //       else if (positionDiv.innerHTML != player){
-  //         player = positionDiv.innerHTML
-  //         count = 0
-  //       }
-  //       else if (count == 3){
-  //         alert("You WIN!")
-  //       }
-  //     })
-  //   }
-
-  eventHandlers(){
+  //now I need to set the callback
+  eventHandlers(verticalMethod, horizontalMethod){
 
     $(document).on('keydown', function(e){
       if(e.which == 39){
@@ -152,12 +132,14 @@ class Dropper {
 
         if (undef != undefined){
           this.updateCurrentPlayer(position)
-
+          //this callback takes in the column index AND the player token
+          verticalMethod(position, player)
+          horizontalMethod(undef, player)
         } else {
           alert("Please select another column!")
         }
       }
-      // this.checkVerticalWin(position)
+
     }.bind(this))
   }
 
@@ -166,7 +148,6 @@ class Dropper {
 
 
 class ConnectFour {
-///return value of   @dropper.token
 
   constructor(){
     this.board = new Board()
@@ -174,20 +155,59 @@ class ConnectFour {
   }
 
   render(){
-    this.dropper.render()
+    //passing this function as a callback into dropper class
+    this.dropper.render(this.checkVerticalWin.bind(this), this.checkHorizontalWin.bind(this))
     this.board.render()
-  }
-  //logic for finding four in a row
-
-
-
-  checkHorizontalWin(){
 
   }
 
-  //logic to see what player is first
+  //this method is passed into the Dropper class when it's rendered. I needed to bind it or else it'll lose the 'this'
+  //it will take in the index that the dropper was on when space was clicked AND the player token that it was on
+  checkVerticalWin(columnIndex, playerToken){
+    var count = 0
+    var player = playerToken
+    //this is looking at only the column that was taken in
+    var column = this.board.positions[columnIndex]
 
-  //check for win
+    for (var i = 0; i < 6; i++){
+        if (column[i] == player && count < 3){
+          count = count + 1
+        }
+        else if (column[i] != player){
+          player = column[i]
+          count = 1
+        }
+        else if (count == 3 && player != "O"){
+          alert(`${player} has vertical win!`)
+          //need to end the game
+        }
+      }
+    }
+
+  //takes in the row so i know which row to check since it is the same index across all columns
+  checkHorizontalWin(rowIndex, playerToken){
+    var count = 0
+    var player = playerToken
+    var columns = this.board.positions
+
+    for (var i = 0; i < 7; i++){
+      if (columns[i][rowIndex] == player && count < 3){
+        count = count + 1
+      }
+      else if (columns[i][rowIndex] != player){
+        player = columns[i][rowIndex]
+        count = 1
+      }
+      else if (count == 3 && player != "O"){
+        alert(`${player} has horizontal win!`)
+      }
+    }
+  }
+
+  //need to know the column and row to begin checking as well as the player token
+  checkDiagonalWin(columnIndex, rowIndex, playerToken){
+
+  }
 
 
 }
