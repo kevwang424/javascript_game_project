@@ -105,17 +105,17 @@ class Dropper {
 
   //render will now take in a method that will be a callback to the connectFour class
   //in the end there may be 3 callback methods it will take in to pass into eventHandlers
-  render(verticalMethod, horizontalMethod){
+  render(verticalMethod, horizontalMethod, diagonalMethod){
     this.initialToken()
     this.dropRow.forEach(function(hiddenRow, i){
       $('#board').append(`<div class = "hidden-column" id = "hidden-column-${i}">${hiddenRow}</div>`)
     })
     //this method needs to be used in the eventHandlers after the spacebar has been pressed and token dropped
-    this.eventHandlers(verticalMethod, horizontalMethod)
+    this.eventHandlers(verticalMethod, horizontalMethod, diagonalMethod)
   }
 
   //now I need to set the callback
-  eventHandlers(verticalMethod, horizontalMethod){
+  eventHandlers(verticalMethod, horizontalMethod, diagonalMethod){
 
     $(document).on('keydown', function(e){
       if(e.which == 39){
@@ -135,6 +135,8 @@ class Dropper {
           //this callback takes in the column index AND the player token
           verticalMethod(position, player)
           horizontalMethod(undef, player)
+          //need to pass in player to check and the current board positions
+          diagonalMethod(player, this.board.positions)
         } else {
           alert("Please select another column!")
         }
@@ -156,9 +158,8 @@ class ConnectFour {
 
   render(){
     //passing this function as a callback into dropper class
-    this.dropper.render(this.checkVerticalWin.bind(this), this.checkHorizontalWin.bind(this))
+    this.dropper.render(this.checkVerticalWin.bind(this), this.checkHorizontalWin.bind(this), this.checkDiagonalWin.bind(this))
     this.board.render()
-
   }
 
   //this method is passed into the Dropper class when it's rendered. I needed to bind it or else it'll lose the 'this'
@@ -204,9 +205,50 @@ class ConnectFour {
     }
   }
 
-  //need to know the column and row to begin checking as well as the player token
-  checkDiagonalWin(columnIndex, rowIndex, playerToken){
 
+  //need to know the column and row to begin checking as well as the player token
+  checkDiagonalWin(playerToken){
+    var player = playerToken
+
+    var diagonalMoves =
+    //diagonals this way \
+    [[this.board.positions[0][2], this.board.positions[1][3], this.board.positions[2][4], this.board.positions[3][5]],
+    [this.board.positions[0][1], this.board.positions[1][2], this.board.positions[2][3], this.board.positions[3][4]],
+    [this.board.positions[1][2], this.board.positions[2][3], this.board.positions[3][4], this.board.positions[4][5]],
+    [this.board.positions[0][0], this.board.positions[1][1], this.board.positions[2][2], this.board.positions[3][3]],
+    [this.board.positions[1][1], this.board.positions[2][2], this.board.positions[3][3], this.board.positions[4][4]],
+    [this.board.positions[2][2], this.board.positions[3][3], this.board.positions[4][4], this.board.positions[5][5]],
+    [this.board.positions[1][0], this.board.positions[2][1], this.board.positions[3][2], this.board.positions[4][3]],
+    [this.board.positions[2][1], this.board.positions[3][2], this.board.positions[4][3], this.board.positions[5][4]],
+    [this.board.positions[3][2], this.board.positions[4][3], this.board.positions[5][4], this.board.positions[6][5]],
+    [this.board.positions[2][0], this.board.positions[3][1], this.board.positions[4][2], this.board.positions[5][3]],
+    [this.board.positions[3][1], this.board.positions[4][2], this.board.positions[5][3], this.board.positions[6][4]],
+    [this.board.positions[3][0], this.board.positions[4][1], this.board.positions[5][2], this.board.positions[6][3]],
+    // diagonals this way /
+    [this.board.positions[3][0], this.board.positions[2][1], this.board.positions[1][2], this.board.positions[0][3]],
+    [this.board.positions[4][0], this.board.positions[3][1], this.board.positions[2][2], this.board.positions[1][3]],
+    [this.board.positions[3][1], this.board.positions[2][2], this.board.positions[1][3], this.board.positions[0][4]],
+    [this.board.positions[5][0], this.board.positions[4][1], this.board.positions[3][2], this.board.positions[2][3]],
+    [this.board.positions[4][1], this.board.positions[3][2], this.board.positions[2][3], this.board.positions[1][4]],
+    [this.board.positions[3][2], this.board.positions[2][3], this.board.positions[1][4], this.board.positions[0][5]],
+    [this.board.positions[6][0], this.board.positions[5][1], this.board.positions[4][2], this.board.positions[3][3]],
+    [this.board.positions[5][1], this.board.positions[4][2], this.board.positions[3][3], this.board.positions[2][4]],
+    [this.board.positions[4][2], this.board.positions[3][3], this.board.positions[2][4], this.board.positions[1][5]],
+    [this.board.positions[6][1], this.board.positions[5][2], this.board.positions[4][3], this.board.positions[3][4]],
+    [this.board.positions[5][2], this.board.positions[4][3], this.board.positions[3][4], this.board.positions[2][5]],
+    [this.board.positions[6][2], this.board.positions[5][3], this.board.positions[4][4], this.board.positions[3][5]]];
+
+
+
+    function same(element){
+      return element == player
+    }
+
+    for (var i = 0; i < diagonalMoves.length; i++){
+      if (diagonalMoves[i].every(same)){
+        alert(`${player} has diagonal win!`)
+      }
+    }
   }
 
 
