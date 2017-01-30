@@ -9,10 +9,10 @@
   src="https://code.jquery.com/jquery-2.2.4.min.js"
   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
   crossorigin="anonymous"></script>
-  <!-- <script type="text/javascript" src='javascripts/board.js'></script> -->
+  <script type="text/javascript" src='javascripts/board.js'></script>
   <script type="text/javascript" src='javascripts/index.js'></script>
-  <!-- <script type= "text/javascript" src='javascripts/dropper.js'></script>
-  <script type= "text/javascript" src='javascripts/connectFour.js'></script> -->
+  <script type= "text/javascript" src='javascripts/dropper.js'></script>
+  <script type= "text/javascript" src='javascripts/connectFour.js'></script>
   </head>
   <body>
     <nav>
@@ -20,10 +20,20 @@
         <a href="#" class="brand-logo">Connect Four</a>
       </div>
     </nav>
+    <div class="game-rules">
+      <p>Welcome to Connect Four where the rules are simple: get four of your tokens in a row (vertical, horizontal, or diagonal) and WIN!</p>
+      <ul>
+        <li>To move left: Use the left arrow key</li>
+        <li>To move right: Use the right arrow key</li>
+        <li>To drop your piece: Use the spacebar</li>
+        <li>If you're not happy you can restart your game any time!</li>
+      </ul>
 
+    </div>
     <div class="container">
         <div id="board"></div>
     </div>
 
+    <button id="myButton" onClick='window.location.reload()'>Restart game</button>
   </body>
 </html>
