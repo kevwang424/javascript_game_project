@@ -22,17 +22,14 @@
 
 }
 
-
-
 .hidden-column {
+  color: white;
   font-size: 30px;
   position: relative;
   text-align: center;
   width: 14.285%;
   height: 10%;
 }
-
-
 
 .column {
   margin-top: -2px;
@@ -45,5 +42,9 @@
 .position{
   font-size: 43px;
   height: 150%;
-  text-align: center
+  text-align: center;
+}
+
+.game-rules {
+  text-align: center;
 }
