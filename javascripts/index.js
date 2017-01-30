@@ -9,8 +9,6 @@ class Board {
     this.positions = [["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"],["O", "O", "O", "O", "O", "O"]]
   }
 
-  //create the board and also initialize the dropper on the first
-
   render(){
     this.positions.forEach(function(row, i){
       $(`#hidden-column-${i}`).append(`<div class = "column" id = "column-${i}"></div>`)
@@ -103,18 +101,14 @@ class Dropper {
     this.dropRow[position] = this.token
   }
 
-  //render will now take in a method that will be a callback to the connectFour class
-  //in the end there may be 3 callback methods it will take in to pass into eventHandlers
   render(verticalMethod, horizontalMethod, diagonalMethod){
     this.initialToken()
     this.dropRow.forEach(function(hiddenRow, i){
       $('#board').append(`<div class = "hidden-column" id = "hidden-column-${i}">${hiddenRow}</div>`)
     })
-    //this method needs to be used in the eventHandlers after the spacebar has been pressed and token dropped
     this.eventHandlers(verticalMethod, horizontalMethod, diagonalMethod)
   }
 
-  //now I need to set the callback
   eventHandlers(verticalMethod, horizontalMethod, diagonalMethod){
 
     $(document).on('keydown', function(e){
@@ -132,10 +126,8 @@ class Dropper {
 
         if (undef != undefined){
           this.updateCurrentPlayer(position)
-          //this callback takes in the column index AND the player token
           verticalMethod(position, player)
           horizontalMethod(undef, player)
-          //need to pass in player to check and the current board positions
           diagonalMethod(player, this.board.positions)
         } else {
           alert("Please select another column!")
@@ -157,13 +149,11 @@ class ConnectFour {
   }
 
   render(){
-    //passing this function as a callback into dropper class
     this.dropper.render(this.checkVerticalWin.bind(this), this.checkHorizontalWin.bind(this), this.checkDiagonalWin.bind(this))
     this.board.render()
   }
 
-  //this method is passed into the Dropper class when it's rendered. I needed to bind it or else it'll lose the 'this'
-  //it will take in the index that the dropper was on when space was clicked AND the player token that it was on
+
   checkVerticalWin(columnIndex, playerToken){
     var count = 0
     var player = playerToken
@@ -180,12 +170,10 @@ class ConnectFour {
         }
         else if (count == 3 && player != "O"){
           alert(`${player} has vertical win!`)
-          //need to end the game
         }
       }
     }
 
-  //takes in the row so i know which row to check since it is the same index across all columns
   checkHorizontalWin(rowIndex, playerToken){
     var count = 0
     var player = playerToken
@@ -206,7 +194,6 @@ class ConnectFour {
   }
 
 
-  //need to know the column and row to begin checking as well as the player token
   checkDiagonalWin(playerToken){
     var player = playerToken
 
@@ -237,8 +224,6 @@ class ConnectFour {
     [this.board.positions[6][1], this.board.positions[5][2], this.board.positions[4][3], this.board.positions[3][4]],
     [this.board.positions[5][2], this.board.positions[4][3], this.board.positions[3][4], this.board.positions[2][5]],
     [this.board.positions[6][2], this.board.positions[5][3], this.board.positions[4][4], this.board.positions[3][5]]];
-
-
 
     function same(element){
       return element == player
