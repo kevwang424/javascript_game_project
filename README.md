@@ -1,4 +1,4 @@
-#Connect Four
+# Connect Four
 
 Simple two player online Connect Four game written in JavaScript. As in real life, users do not need to stop and can keep placing pieces in the board even after there is a winning combination.
 
